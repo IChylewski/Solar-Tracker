@@ -1,63 +1,100 @@
-import { useTable } from "react-table";
-import React from 'react';
+import ReactTable, { useTable, usePagination } from "react-table";
+import React, {useState, useEffect} from 'react';
+import "../Style/StatisticsTable.css";
+import Axios from "axios";
 
-function StatisticsTable() {
+function StatisticsTable(props) {
+    const [data, setData] = useState(props.data);
 
-    const data = React.useMemo(
+    useEffect(() => {
+        setData(props.data);
+        //console.log(props.data);
+    })
+    /*let data = React.useMemo(
         () => [
             {
-                col1: 'Minsk',
-                col2: '27',
-                col3: 'rain',
+                col2: '12',
+                col3: '09',
+                col4: '2022',
+                col5: '5,55',
             },
             {
-                col1: 'Vilnius',
-                col2: '30',
-                col3: 'rain',
+                col2: '12',
+                col3: '09',
+                col4: '2022',
+                col5: '5,55',
             },
             {
-                col1: 'London',
-                col2: '23',
-                col3: 'rain',
+                col2: '12',
+                col3: '09',
+                col4: '2022',
+                col5: '5,55',
             }
         ],
         []
-    )
+    )*/
 
     const columns = React.useMemo(
         () => [
             {
-                Header: 'City',
-                accessor: 'col1', // accessor is the "key" in the data
+                Header: 'Day',
+                accessor: 'Day', // accessor is the "key" in the data
             },
             {
-                Header: 'Temperature',
-                accessor: 'col2',
+                Header: 'Month',
+                accessor: 'Month',
             },
             {
-                Header: 'Weather Forecast',
-                accessor: 'col3', // accessor is the "key" in the data
+                Header: 'Year',
+                accessor: 'Year', // accessor is the "key" in the data
+            },
+            {
+                Header: 'Panel One Avg.',
+                accessor: 'PanelOne', // accessor is the "key" in the data
+            },
+            {
+                Header: 'Panel Two Avg.',
+                accessor: 'PanelTwo', // accessor is the "key" in the data
             }
         ],
         []
     )
 
     const {
+        //Table needs
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
-        prepareRow
-    } = useTable({ columns, data })
+        prepareRow,
+        page,
+
+        //Pagination needs
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: { pageIndex, pageSize },
+
+    } = useTable({
+        columns,
+        data,
+        initialState: { pageIndex: 0 }
+    },
+        usePagination
+    )
 
     return (
         <div>
-            <table {...getTableProps()}>
+            <table className="table"{...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>
+                                <th scope="col" {...column.getHeaderProps()}>
                                     {column.render('Header')}
                                 </th>
                             ))}
@@ -65,19 +102,14 @@ function StatisticsTable() {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
-                        prepareRow(row)
+                    {page.map(row => {
+                        prepareRow(row);
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map(cell => {
                                     return (
                                         <td
-                                            {...cell.getCellProps()}
-                                            style={{
-                                                padding: '10px',
-                                                border: 'solid 1px gray',
-                                            }}
-                                        >
+                                            {...cell.getCellProps()}>
                                             {cell.render('Cell')}
                                         </td>
                                     )
@@ -86,7 +118,53 @@ function StatisticsTable() {
                         )
                     })}
                 </tbody>
-            </table>
+                </table>
+            <div className="pagination">
+                <div>
+                    <button className="btn btn-outline-primary" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        {'<<'}
+                    </button>
+                    <button className="btn btn-outline-primary" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        {'<'}
+                    </button>
+                    <button className="btn btn-outline-primary" onClick={() => nextPage()} disabled={!canNextPage}>
+                        {'>'}
+                    </button>
+                    <button className="btn btn-outline-primary" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        {'>>'}
+                    </button>
+                    <span className="pageSpan">
+                        Page {pageIndex + 1} of {pageOptions.length}
+                    </span>
+                </div>
+                <div className="">
+                    <span className="pageSpan">
+                        Go to page:
+                        </span>
+                        <input
+                            className="form-control-sm"
+                            type="number"
+                            defaultValue={pageIndex + 1}
+                            onChange={e => {
+                                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                                gotoPage(page)
+                            }} />
+                    <select
+                        className="form-control-sm"
+                        value={pageSize}
+                        onChange={e => {
+                            setPageSize(Number(e.target.value))
+                        }}
+                    >
+                        {[10, 20].map(pageSize => (
+                            <option key={pageSize} value={pageSize}>
+                                Show {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+            </div>
         </div>
     );
 

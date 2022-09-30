@@ -1,24 +1,25 @@
 import '../Style/Navbar.css'
 
-function Navbar(){
-    return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="#">Solar Tracker</a>
-            <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <a className="nav-link" href="/test">Statistics</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/test">Graph</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/test">Test</a>
-                </li>
-            </ul>
+function Navbar(props) {
+    return (
+        <nav className="d-flex navbar navbar-expand-lg navbar-light bg-light space justify-content-between">
+            <div className="d-flex">
+                <a className="navbar-brand" href="#">Solar Tracker</a>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <button className="btn btn-success" onClick={props.changeTableVis}>Statistic</button>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/test">Graph</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/test">Test</a>
+                    </li>
+                </ul>
+            </div>
+            <button onClick={props.logOff} className="btn btn-primary float-right">Log Off</button>
         </nav>
 
-
-        /**/
     )
 }
 

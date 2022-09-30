@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
+const { application } = require("express");
 
 const db = mysql.createPool({
     host: 'mysql5044.site4now.net',
@@ -32,6 +33,15 @@ app.post('/api/login', (req, res) => {
         }
     })
 });
+
+app.get('/api/dailystat', (req, res) => {
+
+    const sqlGet = "SELECT * FROM dailystats";
+
+    db.query(sqlGet, (err, result) => {
+        res.send(result);
+    })
+})
 
 app.listen(3001, () => {
     console.log("running on port 3001");

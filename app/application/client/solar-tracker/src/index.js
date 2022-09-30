@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App';
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
+import "./Style/Index.css"
 
 /*ReactDOM.render(   
   <App /> ,

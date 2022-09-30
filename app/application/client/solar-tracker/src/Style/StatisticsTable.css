@@ -1,0 +1,11 @@
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.pageSpan {
+    margin: 0px 10px;
+    font-size: 18px;
+}
+
