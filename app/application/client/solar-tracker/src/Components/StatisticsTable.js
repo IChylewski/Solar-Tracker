@@ -1,7 +1,6 @@
 import ReactTable, { useTable, usePagination } from "react-table";
 import React, {useState, useEffect} from 'react';
 import "../Style/StatisticsTable.css";
-import Axios from "axios";
 
 function StatisticsTable(props) {
     const [data, setData] = useState(props.data);
@@ -10,29 +9,6 @@ function StatisticsTable(props) {
         setData(props.data);
         //console.log(props.data);
     })
-    /*let data = React.useMemo(
-        () => [
-            {
-                col2: '12',
-                col3: '09',
-                col4: '2022',
-                col5: '5,55',
-            },
-            {
-                col2: '12',
-                col3: '09',
-                col4: '2022',
-                col5: '5,55',
-            },
-            {
-                col2: '12',
-                col3: '09',
-                col4: '2022',
-                col5: '5,55',
-            }
-        ],
-        []
-    )*/
 
     const columns = React.useMemo(
         () => [

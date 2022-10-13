@@ -10,7 +10,7 @@ function Navbar(props) {
                         <button className="btn btn-success" onClick={props.changeTableVis}>Statistic</button>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/test">Graph</a>
+                        <button className="btn btn-primary" onClick={props.changeGraphVis}>Graph</button>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/test">Test</a>

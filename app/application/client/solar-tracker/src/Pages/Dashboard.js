@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Navbar from "../Components/Navbar";
 import StatisticsTable from "../Components/StatisticsTable";
+import LineGraph from "../Components/LineGraph";
 import "../Style/Dashboard.css";
 import Axios from 'axios';
 
 function Dashboard() {
     const [logged, setLogged] = useState("false");
-    const [statisticTableVisible, setStatisticTable] = useState(false);
+    const [statisticTableVisible, setStatisticTableVis] = useState(false);
+    const [lineGraphVisible, setLineGraphVis] = useState(false);
     const [statistic, setStatistics] = useState([]);
     const navigate = useNavigate();
 
@@ -23,7 +25,13 @@ function Dashboard() {
     }
 
     function changeTableVis() {
-        setStatisticTable(!statisticTableVisible);
+        setLineGraphVis(false);
+        setStatisticTableVis(!statisticTableVisible);
+    }
+    
+    function changeGraphVis() {
+        setStatisticTableVis(false);
+        setLineGraphVis(!lineGraphVisible);
     }
 
     useEffect(() => {
@@ -41,8 +49,9 @@ function Dashboard() {
     } else {
         return (
             <div className="container">
-                <Navbar changeTableVis={changeTableVis} logOff={logOff}/>
-                {statisticTableVisible == true && <StatisticsTable data={statistic}/>}
+                <Navbar changeTableVis={changeTableVis} changeGraphVis={changeGraphVis} logOff={logOff}/>
+                {statisticTableVisible == true && <StatisticsTable data={statistic} />}
+                {lineGraphVisible == true && <LineGraph data={statistic} />}
             </div>
         )
     }
