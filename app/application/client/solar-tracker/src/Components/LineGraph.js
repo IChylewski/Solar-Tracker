@@ -7,37 +7,35 @@ function LineGraph(props) {
     const [data, setData] = useState(props.data);
 
     const [graphData, setGraphData] = useState({
-        labels: data.map((data) => data.Day),
+        labels: data.map((data) => data.Time),
         datasets: [
             {
-                label: "Static Solar Panel",
-                data: data.map((data) => data.PanelOne)
+                label: "Tracking Solar Panel",
+                data: data.map((data) => data.PanelOneValue),
+                fill: true,
+                backgroundColor: "rgba(75,192,192,0.2)",
+                borderColor: "rgba(75,192,192,1)"
             },
             {
-                label: "Tracking Solar Panel",
-                data: data.map((data) => data.PanelTwo)
+                label: "Static Solar Panel",
+                data: data.map((data) => data.PanelTwoValue),
+                fill: false,
+                borderColor: "#742774"
             }]
     })
 
     useEffect(() => {
         setData(props.data);
-        //console.log(props.data);
     })
 
-    /*const [graphData, setGraphData] = useState({
-        labels: "data.map((data) => data.day)",
-        datasets: [{
-            label: "Static Solar Panel",
-            data: data.map((data) => data.PanelOne)
-        }]
-    })*/
 
 
-    return <Line data={graphData} />;
-
-    //console.log(data);
-
-    //return <h1>Hello</h1>;
+    return (
+        <div>
+            <h1>Last 24h</h1>
+            <Line data={graphData} />
+        </div>
+    )
 }
 
 export default LineGraph;

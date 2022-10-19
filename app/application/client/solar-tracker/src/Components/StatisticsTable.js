@@ -13,24 +13,20 @@ function StatisticsTable(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Day',
-                accessor: 'Day', // accessor is the "key" in the data
+                Header: 'Time',
+                accessor: 'Time', // accessor is the "key" in the data
             },
             {
-                Header: 'Month',
-                accessor: 'Month',
-            },
-            {
-                Header: 'Year',
-                accessor: 'Year', // accessor is the "key" in the data
+                Header: 'Date',
+                accessor: 'Date',
             },
             {
                 Header: 'Panel One Avg.',
-                accessor: 'PanelOne', // accessor is the "key" in the data
+                accessor: 'PanelOneValue', // accessor is the "key" in the data
             },
             {
                 Header: 'Panel Two Avg.',
-                accessor: 'PanelTwo', // accessor is the "key" in the data
+                accessor: 'PanelTwoValue', // accessor is the "key" in the data
             }
         ],
         []
@@ -58,7 +54,7 @@ function StatisticsTable(props) {
     } = useTable({
         columns,
         data,
-        initialState: { pageIndex: 0 }
+        initialState: { pageIndex: 0, pageSize: 15 }
     },
         usePagination
     )
@@ -132,7 +128,7 @@ function StatisticsTable(props) {
                             setPageSize(Number(e.target.value))
                         }}
                     >
-                        {[10, 20].map(pageSize => (
+                        {[15, 30].map(pageSize => (
                             <option key={pageSize} value={pageSize}>
                                 Show {pageSize}
                             </option>

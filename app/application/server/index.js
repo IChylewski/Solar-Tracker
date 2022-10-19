@@ -42,10 +42,12 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/dailystat', (req, res) => {
 
-    const sqlGet = "SELECT * FROM dailystats";
+    const sqlGet = "SELECT Time, DATE_FORMAT(Date, '%d/%m/%Y') as Date, PanelOneValue, PanelTwoValue FROM test2 WHERE Date >= NOW() - INTERVAL 1 DAY;" // 24 HOURS
+    //const sqlGet = "SELECT Time, DATE_FORMAT(Date, '%d/%m/%Y') as Date, PanelOneValue, PanelTwoValue FROM test2"; // All Records
 
     db.query(sqlGet, (err, result) => {
-        res.send(result);
+        res.send(result)
+        console.log(err);
     })
 })
 
@@ -68,7 +70,6 @@ app.listen(3001, () => {
 
 // Particle
 
-//const devicesPr = particle.listDevices({ auth: token });
 
 function getPanelsValues() {
     let solarPanelOneValues = [];
@@ -86,8 +87,6 @@ function getPanelsValues() {
             const date = dateTime.slice(0,10);
             const time = dateTime.slice(11,19);
 
-            //console.log(solarPanelOneAvg);
-            //console.log(solarPanelTwoAvg);
 
             let sqlPost = `INSERT INTO test2 VALUES (?,?,?,?,?)`;
 
@@ -96,8 +95,6 @@ function getPanelsValues() {
                 console.log("Errors " + err)
                 console.log("Entry  has been added");
             })
-            //post1
-            //post2
 
             clearInterval(interval);
         }
@@ -117,39 +114,6 @@ function getPanelsValues() {
 
         counter += 1;
     }, 5000);
-
-    /*for(let i  = 0; i < 10; i++){
-
-        let solarPanelOneValue = 0;
-        let solarPanelTwoValue = 0;
-
-        setTimeout(function() {
-
-            particle.getVariable({ deviceId: deviceID, name: 'solar panel one volt', auth: token}).then( (data) => {
-                solarPanelOneValue = data.body.result;
-            })
-
-            particle.getVariable({ deviceId: deviceID, name: 'solar panel two volt', auth: token}).then( (data) => {
-                solarPanelTwoValue = data.body.result;
-            })
-
-            //solarPanelOneValues.push(solarPanelOneValue);
-            //solarPanelTwoValues.push(solarPanelTwoValue);
-
-            console.log(solarPanelOneValue);
-            console.log(solarPanelTwoValue);
-
-        }, 2000)
-    }*/
-
-    //solarPanelOneAvg = solarPanelOneValues.reduce((a,b) => a+b, 0) / solarPanelOneValues.length;
-    //solarPanelTwoAvg = solarPanelTwoValues.reduce((a,b) => a+b, 0) / solarPanelTwoValues.length;
-
-    // post1
-    // post2
-
-    //console.log(solarPanelOneAvg);
-    //console.log(solarPanelTwoAvg);
 
 }
 
