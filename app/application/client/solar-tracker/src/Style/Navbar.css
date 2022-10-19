@@ -1,0 +1,7 @@
+.navbar {
+    margin: 10px;
+}
+ul {
+    display:flex;
+    justify-content: right;
+}
