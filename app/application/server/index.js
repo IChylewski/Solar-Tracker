@@ -42,11 +42,11 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/dailystat', (req, res) => {
 
-    const sqlGet = "SELECT Time, DATE_FORMAT(Date, '%d/%m/%Y') as Date, PanelOneValue, PanelTwoValue FROM test2 WHERE Date >= NOW() - INTERVAL 1 DAY;" // 24 HOURS
+    const sqlGet = "SELECT Time, DATE_FORMAT(Date, '%d/%m/%Y') as Date, PanelOneValue, PanelTwoValue FROM projekt5 WHERE Date >= NOW() - INTERVAL 30 DAY;" // 24 HOURS
     //const sqlGet = "SELECT Time, DATE_FORMAT(Date, '%d/%m/%Y') as Date, PanelOneValue, PanelTwoValue FROM test2"; // All Records
 
     db.query(sqlGet, (err, result) => {
-        res.send(result)
+        res.send(result);
         console.log(err);
     })
 })
@@ -88,7 +88,7 @@ function getPanelsValues() {
             const time = dateTime.slice(11,19);
 
 
-            let sqlPost = `INSERT INTO test2 VALUES (?,?,?,?,?)`;
+            let sqlPost = `INSERT INTO projekt5 VALUES (?,?,?,?,?)`;          // change table name
 
             db.query(sqlPost, [null,time, date, solarPanelOneAvg, solarPanelTwoAvg], (err, result) => {
                 //console.log("Results " + result);
